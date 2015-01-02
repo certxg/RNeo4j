@@ -4,7 +4,7 @@ An R package that allows you to easily interact with a Neo4j graph database from
 
 ```
 install.packages("devtools")
-devtools::install_github("nicolewhite/RNeo4j")
+devtools::install_github("certxg/RNeo4j")
 library(RNeo4j)
 ```
 
