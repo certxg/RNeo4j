@@ -1,11 +1,10 @@
-startGraph = function(url, username = character(), password = character(), opts = list()) UseMethod("startGraph")
+startGraph = function(url, username = character(), password = character()) UseMethod("startGraph")
 
-startGraph.default = function(url, username = character(), password = character(), opts = list()) {
+startGraph.default = function(url, username = character(), password = character()) {
   stopifnot(is.character(url), 
             length(url) == 1,
             is.character(username),
-            is.character(password),
-            is.list(opts))
+            is.character(password))
   
   if(length(username) == 1 && length(password) == 1) {
     userpwd = paste0(username, ":", password)
@@ -14,10 +13,10 @@ startGraph.default = function(url, username = character(), password = character(
     } else {
       url = gsub("http://", paste0("http://", userpwd, "@"), url)
     }
-    response = http_request(url,"GET","OK", addtl_opts = opts)
+    response = http_request(url,"GET","OK")
     
   } else {
-    response = http_request(url,"GET","OK", addtl_opts = opts)
+    response = http_request(url,"GET","OK")
   }
   
   result = fromJSON(response)
@@ -33,7 +32,6 @@ startGraph.default = function(url, username = character(), password = character(
   attr(graph, "constraints") = paste0(url, "schema/constraint")
   attr(graph, "node_labels") = paste0(url, "labels")
   attr(graph, "transaction") = paste0(url, "transaction")
-  attr(graph, "opts") = opts
   
   # Remove trailing forward slash.
   url = substr(url, 1, nchar(url) - 1)
@@ -47,3 +45,4 @@ startGraph.default = function(url, username = character(), password = character(
   class(graph) = "graph"
   return(graph)
 }
+
