@@ -6,9 +6,8 @@ startGraph.default = function(url, username = character(), password = character(
             is.character(username),
             is.character(password))
   
-  
-  response = http_request(url,"GET","OK")
-
+  header = setHeaders()
+  response = http_request(url, "GET", "OK", httpheader = header)
   
   result = fromJSON(response)
   graph = list()
