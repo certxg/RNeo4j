@@ -17,7 +17,7 @@ startGraph.default = function(url, username = character(), password = character(
   if ( length(response) == 0 ) {
     return("NULL")
   } else if ( length(response) < 1000 ) {
-    return(response)
+    return("NOT NULL")
   }
   
   result = fromJSON(response)
