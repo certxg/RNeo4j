@@ -8,15 +8,11 @@ startGraph.default = function(url, username = character(), password = character(
   
   header = setHeaders()
   ## response = http_request(url, "GET", "OK", httpheader = header)
-  
-  response = NULL
-  
-  if(url.exists("http://localhost:7474")) {
-    h = basicTextGatherer()
-    curlPerform(url = "http://localhost:7474/db/data", writefunction = h$update)
-    # Now read the text that was cumulated during the query response.
-    response = h$value()
-  }
+
+  h = basicTextGatherer()
+  curlPerform(url = "http://localhost:7474/db/data", writefunction = h$update)
+  # Now read the text that was cumulated during the query response.
+  response = h$value()
 
   result = fromJSON(response)
   graph = list()
