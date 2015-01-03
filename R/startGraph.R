@@ -1,25 +1,23 @@
-startGraph = function(url, username = character(), password = character()) UseMethod("startGraph")
+startGraph = function(url, username = character(), password = character(), opts = list()) UseMethod("startGraph")
 
-startGraph.default = function(url, username = character(), password = character()) {
+startGraph.default = function(url, username = character(), password = character(), opts = list()) {
   stopifnot(is.character(url), 
             length(url) == 1,
             is.character(username),
-            is.character(password))
+            is.character(password),
+            is.list(opts))
   
-  header = setHeaders()
-  ## response = http_request(url, "GET", "OK", httpheader = header)
-
-  h = basicTextGatherer()
-  curlPerform(url = "http://localhost:7474/db/data", writefunction = h$update)
-  # Now read the text that was cumulated during the query response.
-  response = h$value()
-  
-  if ( length(response) == 0 ) {
-    return("NULL")
-  } else if ( length(response) == 1 ) {
-    return("BLANK")
-  } else if ( length(response) < 1000 ) {
-    return("NOT NULL")
+  if(length(username) == 1 && length(password) == 1) {
+    userpwd = paste0(username, ":", password)
+    if(substr(url, 1, 5) == "https") {
+      url = gsub("https://", paste0("https://", userpwd, "@"), url)
+    } else {
+      url = gsub("http://", paste0("http://", userpwd, "@"), url)
+    }
+    response = http_request(url,"GET","OK", addtl_opts = opts)
+    
+  } else {
+    response = http_request(url,"GET","OK", addtl_opts = opts)
   }
   
   result = fromJSON(response)
@@ -35,6 +33,7 @@ startGraph.default = function(url, username = character(), password = character(
   attr(graph, "constraints") = paste0(url, "schema/constraint")
   attr(graph, "node_labels") = paste0(url, "labels")
   attr(graph, "transaction") = paste0(url, "transaction")
+  attr(graph, "opts") = opts
   
   # Remove trailing forward slash.
   url = substr(url, 1, nchar(url) - 1)
@@ -48,4 +47,3 @@ startGraph.default = function(url, username = character(), password = character(
   class(graph) = "graph"
   return(graph)
 }
-
