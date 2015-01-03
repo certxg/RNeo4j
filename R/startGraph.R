@@ -14,7 +14,7 @@ startGraph.default = function(url, username = character(), password = character(
   # Now read the text that was cumulated during the query response.
   response = h$value()
   
-  if ( response == NULL ) {
+  if ( length(response) == 0 ) {
     return("NULL")
   }
   
