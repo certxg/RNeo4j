@@ -101,7 +101,7 @@ setHeaders = function() {
        'X-Stream' = TRUE)
 }
 
-http_request = function(url, request_type, wanted_status, postfields = NULL, httpheader = NULL, addtl_opts = list()) {
+http_request = function(url, request_type, wanted_status, httpheader = NULL, addtl_opts = list()) {
   t = basicTextGatherer()
   h = basicHeaderGatherer()
   
@@ -110,9 +110,6 @@ http_request = function(url, request_type, wanted_status, postfields = NULL, htt
               headerfunction = h$update,
               useragent = "RNeo4j/1.1.0")
   
-  if(!is.null(postfields)) {
-    opts = c(opts, list(postfields = postfields))
-  }
   if(!is.null(httpheader)) {
     opts = c(opts, list(httpheader = httpheader))
   }
