@@ -13,7 +13,11 @@ startGraph.default = function(url, username = character(), password = character(
   curlPerform(url = "http://localhost:7474/db/data", writefunction = h$update)
   # Now read the text that was cumulated during the query response.
   response = h$value()
-
+  
+  if ( response == NULL ) {
+    return("NULL")
+  }
+  
   result = fromJSON(response)
   graph = list()
   graph$version = result$neo4j_version
