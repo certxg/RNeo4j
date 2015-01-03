@@ -16,6 +16,8 @@ startGraph.default = function(url, username = character(), password = character(
   
   if ( length(response) == 0 ) {
     return("NULL")
+  } else if ( length(response) == 1 ) {
+    return("BLANK")
   } else if ( length(response) < 1000 ) {
     return("NOT NULL")
   }
