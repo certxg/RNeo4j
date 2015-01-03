@@ -6,18 +6,9 @@ startGraph.default = function(url, username = character(), password = character(
             is.character(username),
             is.character(password))
   
-  if(length(username) == 1 && length(password) == 1) {
-    userpwd = paste0(username, ":", password)
-    if(substr(url, 1, 5) == "https") {
-      url = gsub("https://", paste0("https://", userpwd, "@"), url)
-    } else {
-      url = gsub("http://", paste0("http://", userpwd, "@"), url)
-    }
-    response = http_request(url,"GET","OK")
-    
-  } else {
-    response = http_request(url,"GET","OK")
-  }
+  
+  response = http_request(url,"GET","OK")
+
   
   result = fromJSON(response)
   graph = list()
